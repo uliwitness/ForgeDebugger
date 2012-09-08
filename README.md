@@ -19,7 +19,7 @@ Simply launch the ForgeDebugger application. It will start listening on a hard-c
 License
 -------
 
-  Copyright 2003-2012 by Uli Kusterer.
+	Copyright 2003-2012 by Uli Kusterer.
 	
 	This software is provided 'as-is', without any express or implied
 	warranty. In no event will the authors be held liable for any damages
