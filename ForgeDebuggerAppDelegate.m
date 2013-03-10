@@ -91,7 +91,7 @@
 
 -(BOOL)	application: (NSApplication *)sender openFile: (NSString *)filename
 {
-	NSString		*		codeStr = [[[NSString alloc] initWithContentsOfFile: filename] autorelease];
+	NSString		*		codeStr = [[[NSString alloc] initWithContentsOfFile: filename encoding: NSUTF8StringEncoding error: NULL] autorelease];
 	NSDictionary	*		textAttrs = [NSDictionary dictionaryWithObjectsAndKeys:
 												[NSFont userFixedPitchFontOfSize: 10.0], NSFontAttributeName,
 												nil];
@@ -249,7 +249,7 @@
 	[theData getBytes: &instructionPointer range: theRange];
 	theRange.location += theRange.length;
 	
-	NSString			*		instructionKey = [NSString stringWithFormat: @"%ll016x", instructionPointer];
+	NSString			*		instructionKey = [NSString stringWithFormat: @"%016llx", instructionPointer];
 	
 	if( sLastInstructionPointer != instructionPointer )
 	{
@@ -267,7 +267,7 @@
 {
 	unsigned long long			instructionPointer = 0;
 	[theData getBytes: &instructionPointer length: sizeof(instructionPointer)];
-	NSString			*		instructionKey = [NSString stringWithFormat: @"%ll016x", instructionPointer];
+	NSString			*		instructionKey = [NSString stringWithFormat: @"%016llx", instructionPointer];
 	
 	[mInstructionField setStringValue: instructionKey];
 	
