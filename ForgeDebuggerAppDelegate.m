@@ -27,6 +27,16 @@
 @synthesize instructionsTableView = mInstructionsTableView;
 
 
+-(id)	init
+{
+	if(( self = [super init] ))
+	{
+		mCurrentFileID = 0xffff;	// We start at 0, can't use that. Unlikely that first file we execute has max. ID.
+	}
+	
+	return self;
+}
+
 - (void)applicationDidFinishLaunching:(NSNotification *)notification
 {
 	mServerSocket = [[ULINetSocket netsocketListeningOnPort: 13762] retain];
@@ -36,6 +46,7 @@
 	mVariables = [[NSMutableArray alloc] init];
 	mHandlers = [[NSMutableArray alloc] init];
 	mInstructions = [[NSMutableDictionary alloc] init];
+	mFilesByID = [[NSMutableDictionary alloc] init];
 	
 	[self setDebuggerUIEnabled: NO];
 }
@@ -46,6 +57,7 @@
 	[mVariables release];
 	[mHandlers release];
 	[mInstructions release];
+	[mFilesByID release];
 	
 	[super dealloc];
 }
@@ -286,18 +298,20 @@
 
 -(void)	handleSOUROperation: (NSData*)theData
 {
-	NSRange			theRange = { 0, 0 };
+	NSRange			theRange = { 1, 0 };	// Should be 2, but subdataUntilNextNullByteInData: assumes it has to skip a '\0' byte when called with anything other than 0.
+	uint16_t		fileID = *(uint16_t*)[theData bytes];
 	NSData		*	fileNameData = [self subdataUntilNextNullByteInData: theData foundRange: &theRange];
 	NSData		*	fileContentData = [self subdataUntilNextNullByteInData: theData foundRange: &theRange];
 	
 	NSString	*	fileNameStr = [[NSString alloc] initWithData: fileNameData encoding: NSUTF8StringEncoding];
 	NSString	*	fileContentStr = [[NSString alloc] initWithData: fileContentData encoding: NSUTF8StringEncoding];
-	[[[mTextView textStorage] mutableString] setString: fileContentStr];
-	[mFileNameField setStringValue: fileNameStr];
+//	[[[mTextView textStorage] mutableString] setString: fileContentStr];
+//	[mFileNameField setStringValue: fileNameStr];
+	[mFilesByID setObject: @{ @"contents": fileContentStr, @"name": fileNameStr } forKey: [NSNumber numberWithInt: fileID]];
 	[fileNameStr release];
 	[fileContentStr release];
 	
-	[[mTextView textStorage] addAttribute: NSFontAttributeName value: [NSFont userFixedPitchFontOfSize: 10.0] range: NSMakeRange(0,[[mTextView textStorage] length])];
+//	[[mTextView textStorage] addAttribute: NSFontAttributeName value: [NSFont userFixedPitchFontOfSize: 10.0] range: NSMakeRange(0,[[mTextView textStorage] length])];
 }
 
 
@@ -306,13 +320,25 @@
 	NSRange			allRange = NSMakeRange(0,[[mTextView textStorage] length]);
 	NSRange			lineRange = { 0,0 };
 	uint32_t		theLine = 0;
+	uint16_t		theFileID = 0;
 	NSString	*	theStr = [mTextView string];
 	NSInteger		textLength = [theStr length];
 	NSInteger		currLine = 1;
 	BOOL			foundLine = NO;
 	BOOL			foundLineEnd = NO;
 	
-	[theData getBytes: &theLine length: sizeof(theLine)];
+	[theData getBytes: &theFileID length: sizeof(theFileID)];
+	theLine = *((uint32_t*)((char*)[theData bytes] +sizeof(theFileID)));
+	
+	if( theFileID != mCurrentFileID )
+	{
+		NSDictionary*	fileDict = mFilesByID[ [NSNumber numberWithInt: theFileID] ];
+		
+		[[[mTextView textStorage] mutableString] setString: fileDict[@"contents"]];
+		[mFileNameField setStringValue: fileDict[@"name"]];
+
+		[[mTextView textStorage] addAttribute: NSFontAttributeName value: [NSFont userFixedPitchFontOfSize: 10.0] range: NSMakeRange(0,[[mTextView textStorage] length])];
+	}
 	
 	for( NSInteger currIdx = 0; currIdx < textLength; currIdx++ )
 	{
@@ -335,7 +361,7 @@
 	
 	if( foundLine && !foundLineEnd )
 		lineRange.length = textLength -lineRange.location;
-	
+		
 	[[mTextView textStorage] removeAttribute: NSBackgroundColorAttributeName range: allRange];
 	[[mTextView textStorage] addAttribute: NSBackgroundColorAttributeName value: [NSColor colorWithCalibratedRed:0.8 green: 1.0 blue: 0.8 alpha: 1.0] range: lineRange];
 }

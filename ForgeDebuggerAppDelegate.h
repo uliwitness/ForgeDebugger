@@ -32,6 +32,8 @@
 	NSButton		*		mRemoveCheckpointButton;
 	NSTableView		*		mInstructionsTableView;
 	NSMutableDictionary	*	mInstructions;
+	NSMutableDictionary	*	mFilesByID;
+	uint16_t				mCurrentFileID;
 }
 
 @property (assign) IBOutlet NSWindow		*		window;
