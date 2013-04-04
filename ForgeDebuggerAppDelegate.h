@@ -15,7 +15,7 @@
 
 @interface ForgeDebuggerAppDelegate : NSObject <NSApplicationDelegate,ForgeDebuggerSession>
 {
-    NSWindow		*		mWindow;
+	NSWindow		*		mWindow;
 	NSTableView		*		mStackTable;
 	NSTableView		*		mVariablesTable;
 	NSTextView		*		mTextView;
