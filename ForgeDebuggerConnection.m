@@ -42,14 +42,6 @@
 }
 
 
--(void)	writeOneLine: (NSString*)str
-{
-	//NSLog( @"B Writing one line" );
-
-	[socket writeString: str encoding: NSUTF8StringEncoding];
-}
-
-
 -(void)	writeCommandWithoutData: (const char*)str
 {
 	//NSLog( @"B Writing one line" );

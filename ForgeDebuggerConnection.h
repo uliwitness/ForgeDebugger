@@ -29,7 +29,6 @@
 
 -(id)	initWithSocket: (ULINetSocket*)inSock debuggerSession: (id<ForgeDebuggerSession>)inDebuggerSession;
 
--(void)	writeOneLine: (NSString*)str;
 -(void)	writeCommandWithoutData: (const char*)str;
 
 @end
