@@ -49,6 +49,8 @@
 	uint32_t	dataLen = 0;
 	[socket write: str length: 4];
 	[socket write: &dataLen length: sizeof(dataLen)];
+	
+	NSLog( @"Sending command '%s' %u bytes of data", str, dataLen );
 }
 
 
@@ -88,19 +90,22 @@
 	unsigned		payloadLength = bytesArray[1];
 	
 	if( ([currentData length] -8) < payloadLength )
+	{
+		NSLog(@"Not enough data from payload (yet?)");
 		return 0;
+	}
 	
 	NSData* thePayload = [currentData subdataWithRange: NSMakeRange(8,payloadLength)];
 	
 	NSString	*	selName = [NSString stringWithFormat: @"handle%c%c%c%cOperation:", singleBytes[0], singleBytes[1], singleBytes[2], singleBytes[3]];
 	SEL	theAction = NSSelectorFromString( selName );
 	
-	//NSLog( @"Asked to do %@ with %d bytes of payload", selName, payloadLength );
+	NSLog( @"Asked to do %@ with %d bytes of payload", selName, payloadLength );
 	
 	if( [session respondsToSelector: theAction] )
 		[(NSObject*)session performSelectorOnMainThread: theAction withObject: thePayload waitUntilDone: NO];
 	else
-		;//NSLog( @"No handler for %@", selName );
+		NSLog( @"No handler for %@", selName );
 	
 	return payloadLength + 8;
 }
