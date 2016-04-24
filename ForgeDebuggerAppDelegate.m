@@ -334,8 +334,8 @@
 	{
 		NSDictionary*	fileDict = mFilesByID[ [NSNumber numberWithInt: theFileID] ];
 		
-		[[[mTextView textStorage] mutableString] setString: fileDict[@"contents"]];
-		[mFileNameField setStringValue: fileDict[@"name"]];
+        [[[mTextView textStorage] mutableString] setString: fileDict ? fileDict[@"contents"] : @""];
+        [mFileNameField setStringValue: fileDict ? fileDict[@"name"] : @"UNKNOWN"];
 
 		[[mTextView textStorage] addAttribute: NSFontAttributeName value: [NSFont userFixedPitchFontOfSize: 10.0] range: NSMakeRange(0,[[mTextView textStorage] length])];
 	}
