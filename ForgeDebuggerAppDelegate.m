@@ -25,7 +25,9 @@
 @synthesize addCheckpointButton = mAddCheckpointButton;
 @synthesize removeCheckpointButton = mRemoveCheckpointButton;
 @synthesize instructionsTableView = mInstructionsTableView;
-
+@synthesize filesWindow = mFilesWindow;
+@synthesize fileTextView = mFileTextView;
+@synthesize fileNamesTableView = mFileNamesTable;
 
 -(id)	init
 {
@@ -121,6 +123,8 @@
 		return [mHandlers count];
 	else if( inView == mVariablesTable )
 		return [mVariables count];
+	else if( inView == mFileNamesTable )
+		return [mFilesByID count];
 	else
 		return [mInstructions count];
 }
@@ -129,6 +133,12 @@
 -(NSArray*)	sortedInstructionKeysArray
 {
 	return [[mInstructions allKeys] sortedArrayUsingSelector: @selector(compare:)];
+}
+
+
+-(NSArray*)	sortedFilesByIDKeysArray
+{
+	return [[mFilesByID allKeys] sortedArrayUsingSelector: @selector(compare:)];
 }
 
 
@@ -142,11 +152,33 @@
 	{
 		return [[mVariables objectAtIndex: row] objectForKey: [tableColumn identifier]];
 	}
+	else if( inView == mFileNamesTable )
+	{
+		NSArray	*	sortedKeys = [self sortedFilesByIDKeysArray];
+		NSString* instructionStr = [mFilesByID objectForKey: [sortedKeys objectAtIndex: row]][@"name"];
+		return instructionStr;
+	}
 	else
 	{
 		NSArray	*	sortedKeys = [self sortedInstructionKeysArray];
 		NSString* instructionStr = [mInstructions objectForKey: [sortedKeys objectAtIndex: row]];
 		return instructionStr;
+	}
+}
+
+
+-(void) tableViewSelectionDidChange: (NSNotification*)notification
+{
+	if( notification.object == mFileNamesTable )
+	{
+		NSInteger			row = mFileNamesTable.selectedRow;
+		if( row >= 0 )
+		{
+			NSArray			*	sortedKeys = [self sortedFilesByIDKeysArray];
+			NSString		*	instructionStr = [mFilesByID objectForKey: [sortedKeys objectAtIndex: row]][@"contents"];
+			NSAttributedString * attrStr = [[[NSAttributedString alloc] initWithString: instructionStr attributes: @{ NSFontAttributeName: [NSFont userFixedPitchFontOfSize: 10.0] }] autorelease];
+			[mFileTextView.textStorage setAttributedString: attrStr];
+		}
 	}
 }
 
@@ -310,6 +342,7 @@
 	[mFilesByID setObject: @{ @"contents": fileContentStr, @"name": fileNameStr } forKey: [NSNumber numberWithInt: fileID]];
 	[fileNameStr release];
 	[fileContentStr release];
+	[mFileNamesTable reloadData];
 	
 //	[[mTextView textStorage] addAttribute: NSFontAttributeName value: [NSFont userFixedPitchFontOfSize: 10.0] range: NSMakeRange(0,[[mTextView textStorage] length])];
 }
@@ -317,15 +350,8 @@
 
 -(void)	handleLINEOperation: (NSData*)theData
 {
-	NSRange			allRange = NSMakeRange(0,[[mTextView textStorage] length]);
-	NSRange			lineRange = { 0,0 };
 	uint32_t		theLine = 0;
 	uint16_t		theFileID = 0;
-	NSString	*	theStr = [mTextView string];
-	NSInteger		textLength = [theStr length];
-	NSInteger		currLine = 1;
-	BOOL			foundLine = NO;
-	BOOL			foundLineEnd = NO;
 	
 	[theData getBytes: &theFileID length: sizeof(theFileID)];
 	theLine = *((uint32_t*)((char*)[theData bytes] +sizeof(theFileID)));
@@ -333,12 +359,23 @@
 	if( theFileID != mCurrentFileID )
 	{
 		NSDictionary*	fileDict = mFilesByID[ [NSNumber numberWithInt: theFileID] ];
+		NSLog(@"File changed from %@ to %@", mFileNameField.stringValue, fileDict ? fileDict[@"name"] : @"UNKNOWN");
 		
         [[[mTextView textStorage] mutableString] setString: fileDict ? fileDict[@"contents"] : @""];
         [mFileNameField setStringValue: fileDict ? fileDict[@"name"] : @"UNKNOWN"];
 
 		[[mTextView textStorage] addAttribute: NSFontAttributeName value: [NSFont userFixedPitchFontOfSize: 10.0] range: NSMakeRange(0,[[mTextView textStorage] length])];
+		
+		mCurrentFileID = theFileID;
 	}
+	
+	NSRange			allRange = NSMakeRange(0,[[mTextView textStorage] length]);
+	NSRange			lineRange = { 0,0 };
+	NSString	*	theStr = [mTextView string];
+	NSInteger		textLength = [theStr length];
+	NSInteger		currLine = 1;
+	BOOL			foundLine = NO;
+	BOOL			foundLineEnd = NO;
 	
 	for( NSInteger currIdx = 0; currIdx < textLength; currIdx++ )
 	{

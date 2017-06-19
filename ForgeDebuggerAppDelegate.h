@@ -34,6 +34,9 @@
 	NSMutableDictionary	*	mInstructions;
 	NSMutableDictionary	*	mFilesByID;
 	uint16_t				mCurrentFileID;
+	NSWindow		*		mFilesWindow;
+	NSTableView		*		mFileNamesTable;
+	NSTextView		*		mFileTextView;
 }
 
 @property (assign) IBOutlet NSWindow		*		window;
@@ -48,6 +51,10 @@
 @property (assign) IBOutlet NSButton		*		addCheckpointButton;
 @property (assign) IBOutlet NSButton		*		removeCheckpointButton;
 @property (assign) IBOutlet NSTableView		*		instructionsTableView;
+
+@property (assign) IBOutlet NSWindow		*		filesWindow;
+@property (assign) IBOutlet NSTableView		*		fileNamesTableView;
+@property (assign) IBOutlet NSTextView		*		fileTextView;
 
 -(IBAction)	doStepOneInstruction: (id)sender;
 -(IBAction)	doContinue: (id)sender;
