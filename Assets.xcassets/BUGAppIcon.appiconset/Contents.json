@@ -3,61 +3,61 @@
     {
       "size" : "16x16",
       "idiom" : "mac",
-      "filename" : "StacksmithDebuggerIcon16.png",
+      "filename" : "BUGAppIcon16.png",
       "scale" : "1x"
     },
     {
       "size" : "16x16",
       "idiom" : "mac",
-      "filename" : "StacksmithDebuggerIcon32.png",
+      "filename" : "BUGAppIcon32.png",
       "scale" : "2x"
     },
     {
       "size" : "32x32",
       "idiom" : "mac",
-      "filename" : "StacksmithDebuggerIcon32-1.png",
+      "filename" : "BUGAppIcon32-1.png",
       "scale" : "1x"
     },
     {
       "size" : "32x32",
       "idiom" : "mac",
-      "filename" : "StacksmithDebuggerIcon64.png",
+      "filename" : "BUGAppIcon64.png",
       "scale" : "2x"
     },
     {
       "size" : "128x128",
       "idiom" : "mac",
-      "filename" : "StacksmithDebuggerIcon128.png",
+      "filename" : "BUGAppIcon128.png",
       "scale" : "1x"
     },
     {
       "size" : "128x128",
       "idiom" : "mac",
-      "filename" : "StacksmithDebuggerIcon256.png",
+      "filename" : "BUGAppIcon256.png",
       "scale" : "2x"
     },
     {
       "size" : "256x256",
       "idiom" : "mac",
-      "filename" : "StacksmithDebuggerIcon256-1.png",
+      "filename" : "BUGAppIcon256-1.png",
       "scale" : "1x"
     },
     {
       "size" : "256x256",
       "idiom" : "mac",
-      "filename" : "StacksmithDebuggerIcon512.png",
+      "filename" : "BUGAppIcon512.png",
       "scale" : "2x"
     },
     {
       "size" : "512x512",
       "idiom" : "mac",
-      "filename" : "StacksmithDebuggerIcon512-1.png",
+      "filename" : "BUGAppIcon512-1.png",
       "scale" : "1x"
     },
     {
       "size" : "512x512",
       "idiom" : "mac",
-      "filename" : "StacksmithDebuggerIcon1024.png",
+      "filename" : "BUGAppIcon1024.png",
       "scale" : "2x"
     }
   ],
