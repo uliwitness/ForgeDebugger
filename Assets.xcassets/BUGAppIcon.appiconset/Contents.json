@@ -3,61 +3,61 @@
     {
       "size" : "16x16",
       "idiom" : "mac",
-      "filename" : "StacksmithIcon16.png",
+      "filename" : "StacksmithDebuggerIcon16.png",
       "scale" : "1x"
     },
     {
       "size" : "16x16",
       "idiom" : "mac",
-      "filename" : "StacksmithIcon32.png",
+      "filename" : "StacksmithDebuggerIcon32.png",
       "scale" : "2x"
     },
     {
       "size" : "32x32",
       "idiom" : "mac",
-      "filename" : "StacksmithIcon32-1.png",
+      "filename" : "StacksmithDebuggerIcon32-1.png",
       "scale" : "1x"
     },
     {
       "size" : "32x32",
       "idiom" : "mac",
-      "filename" : "StacksmithIcon64.png",
+      "filename" : "StacksmithDebuggerIcon64.png",
       "scale" : "2x"
     },
     {
       "size" : "128x128",
       "idiom" : "mac",
-      "filename" : "StacksmithIcon128.png",
+      "filename" : "StacksmithDebuggerIcon128.png",
       "scale" : "1x"
     },
     {
       "size" : "128x128",
       "idiom" : "mac",
-      "filename" : "StacksmithIcon256.png",
+      "filename" : "StacksmithDebuggerIcon256.png",
       "scale" : "2x"
     },
     {
       "size" : "256x256",
       "idiom" : "mac",
-      "filename" : "StacksmithIcon256-1.png",
+      "filename" : "StacksmithDebuggerIcon256-1.png",
       "scale" : "1x"
     },
     {
       "size" : "256x256",
       "idiom" : "mac",
-      "filename" : "StacksmithIcon512.png",
+      "filename" : "StacksmithDebuggerIcon512.png",
       "scale" : "2x"
     },
     {
       "size" : "512x512",
       "idiom" : "mac",
-      "filename" : "StacksmithIcon512-1.png",
+      "filename" : "StacksmithDebuggerIcon512-1.png",
       "scale" : "1x"
     },
     {
       "size" : "512x512",
       "idiom" : "mac",
-      "filename" : "StacksmithIcon1024.png",
+      "filename" : "StacksmithDebuggerIcon1024.png",
       "scale" : "2x"
     }
   ],
