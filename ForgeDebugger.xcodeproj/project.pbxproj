@@ -246,7 +246,6 @@
 				GCC_PREFIX_HEADER = ForgeDebugger_Prefix.pch;
 				INFOPLIST_FILE = "ForgeDebugger-Info.plist";
 				INSTALL_PATH = "$(HOME)/Applications";
-				MACOSX_DEPLOYMENT_TARGET = 10.14;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.thevoidsoftware.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = ForgeDebugger;
 			};
@@ -264,7 +263,6 @@
 				GCC_PREFIX_HEADER = ForgeDebugger_Prefix.pch;
 				INFOPLIST_FILE = "ForgeDebugger-Info.plist";
 				INSTALL_PATH = "$(HOME)/Applications";
-				MACOSX_DEPLOYMENT_TARGET = 10.14;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.thevoidsoftware.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = ForgeDebugger;
 			};
